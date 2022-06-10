@@ -61,6 +61,35 @@ var enemyInfo = [
 ]
 
 
+    var fightOrSkip = function() {
+        // ask player if they'd like to fight or skip using fightOrSkip function
+        var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+      
+        // Conditional Recursive Function Call
+        
+if (promptFight === "" || promptFight === null) {
+    window.alert("You need to provide a valid answer! Please try again.");
+    return fightOrSkip();
+  }
+      promptFight = promptFight.toLowerCase();
+        // if player picks "skip" confirm and then stop the loop
+        if (promptFight === "skip") {
+          // confirm player wants to skip
+          var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+      
+          // if yes (true), leave fight
+          if (confirmSkip) {
+            window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+            // subtract money from playerMoney for skipping
+            playerInfo.playerMoney = playerInfo.money - 10;
+            
+            
+            return true;
+            return false;
+          }
+        }
+      }
+
 
 
 
@@ -68,21 +97,12 @@ var enemyInfo = [
 var fight = function(enemy) {
     while(enemy.health > 0 && playerInfo.Health > 0) {
         
-    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-
-if (promptFight === "skip" || promptFight === "SKIP") {
-    var confirmSkip = window.confirm("Are you sure you'd like to skip?");
-
-    if (confirmSkip) {
-        window.alert(playerInfo.Name + " has decided to skip this fight. Goodbye!");
-        playerInfo.Money = Math.max(0, playerInfo.Money - 10);
-        console.log("playerMoney", playerInfo.Money)
-        break;
-    }
-}   
+        if (fightOrSkip()) {
+            break;
+        }
    
   // if player choses to fight, then fight
-if (promptFight === "fight" || promptFight === "FIGHT") {
+
     // remove enemy's health by subtracting the amount set in the playerAttack variable
     var damage = randomNumber(playerInfo.Attack - 3, playerInfo.Attack);
     enemy.health = Math.max(0, enemy.health - damage);
@@ -114,7 +134,7 @@ if (promptFight === "fight" || promptFight === "FIGHT") {
     }
     // if player choses to skip
    
-        }
+        
     }
 };
 
@@ -164,18 +184,19 @@ var endGame = function() {
     }
 };
 var shop = function(){
-    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.");
+    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 to LEAVE");
+    shopOptionPrompt = perseInt(shopOptionPrompt);
     switch (shopOptionPrompt) {
-        case "REFILL":
-        case "refill":
+        case 1:
+        
 playerInfo.refillHealth();
   break;
-case "UPGRADE":
-case "upgrade":
+case 2:
+
   playerInfo.upgradeAttack();
   break;
-  case "LEAVE": // new case
-  case "leave":
+  case 3: 
+  
     window.alert("Leaving the store.");
     break;
   default:
